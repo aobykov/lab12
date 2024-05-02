@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: none;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .dessert {
+        display: inline-block;
+        width: 240px;
+        height: 120px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .card {
+        display: inline-block;
+        width: 270px;
+        height: 150px;
+        margin: 10px;
+        padding: 15px;
+        box-sizing: border-box;
+        background-color: rgb(194, 194, 194);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all linear 0.3s;
+        vertical-align: top;
+      }
+
+      .card:hover {
+        height: 550px;
+      }
+
+      .card > p {
+        display: none;
+      }
+
+      .card > a {
+        display: none;
+      }
+
+      .card:hover > p {
+        display: inline;
+      }
+
+      .card:hover > a {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .rb {
+        display: none;
+      }
+
+      #img-modal_1 {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 300px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        z-index: 3;
+      }
+      #img-modal_2 {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 300px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        z-index: 3;
+      }
+      #img-modal_3 {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 300px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        z-index: 3;
+      }
+      #img-modal_4 {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 300px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        z-index: 3;
+      }
+      #img-modal_5 {
+        display: none;
+        position: absolute;
+        width: 600px;
+        height: 300px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        z-index: 3;
+      }
+
+      #rb1_open:checked ~ #img-modal_1 {
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #rb2_open:checked ~ #img-modal_2 {
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #rb3_open:checked ~ #img-modal_3 {
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #rb4_open:checked ~ #img-modal_4 {
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #rb5_open:checked ~ #img-modal_5 {
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #rb1_open:checked ~ .modal {
+        display: block;
+      }
+      #rb2_open:checked ~ .modal {
+        display: block;
+      }
+      #rb3_open:checked ~ .modal {
+        display: block;
+      }
+      #rb4_open:checked ~ .modal {
+        display: block;
+      }
+      #rb5_open:checked ~ .modal {
+        display: block;
+      }
+
+      .window-close {
+        position: relative;
+        display: none;
+        width: 32px;
+        height: 32px;
+        position: fixed;
+        top: 32px;
+        right: 32px;
+        z-index: 3;
+        cursor: pointer;
+      }
+
+      .window-close::before,
+      .window-close::after {
+        position: fixed;
+        content: "";
+        height: 33px;
+        width: 2px;
+        background-color: aliceblue;
+        z-index: 3;
+      }
+
+      .window-close::before {
+        transform: rotate(45deg);
+      }
+      .window-close::after {
+        transform: rotate(-45deg);
+      }
+
+      #rb1_open:checked ~ label > .window-close {
+        display: block;
+      }
+      #rb2_open:checked ~ label > .window-close {
+        display: block;
+      }
+      #rb3_open:checked ~ label > .window-close {
+        display: block;
+      }
+      #rb4_open:checked ~ label > .window-close {
+        display: block;
+      }
+      #rb5_open:checked ~ label > .window-close {
+        display: block;
+      }
+
+      @media (375px <= width <= 730px) {
+        .card {
+          display: block;
+          margin: 5px auto;
+        }
+        #img-modal_1,
+        #img-modal_2,
+        #img-modal_3,
+        #img-modal_4,
+        #img-modal_5 {
+          width: 300px;
+          height: 200px;
+        }
+        .card:hover {
+          height: 200px;
+        }
+      }
+      @media (731px <= width <= 1200px) {
+        .card:hover {
+          height: 200px;
+        }
+        .container {
+          text-align: center;
+        }
+      }
+      @media (1201px <= width <= 1500px) {
+        .container {
+          text-align: center;
+        }
+        .card {
+          width: 200px;
+        }
+        .card .dessert {
+          width: 170px;
+        }
+      }
+      @media (width >= 1501px) {
+        .container {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <input id="rb1_open" class="rb" type="radio" name="dessert" />
+    <img id="img-modal_1" src="https://rud.ua/uploads/under_recipe/01.jpg" />
+    <input id="rb2_open" class="rb" type="radio" name="dessert" />
+    <img
+      id="img-modal_2"
+      src="https://rud.ua/uploads/under_recipe/shokoladni-oladky-600x300_5f2d1fcf91be7.jpg"
+    />
+    <input id="rb3_open" class="rb" type="radio" name="dessert" />
+    <img
+      id="img-modal_3"
+      src="https://rud.ua/uploads/under_recipe/600%D1%85300-bananovyy-pudynh_60423ee9232dd.jpg"
+    />
+    <input id="rb4_open" class="rb" type="radio" name="dessert" />
+    <img
+      id="img-modal_4"
+      src="https://rud.ua/uploads/under_recipe/shokoladnyi-fondan-600x300_5f2d431d9f2d3.jpg"
+    />
+    <input id="rb5_open" class="rb" type="radio" name="dessert" />
+    <img
+      id="img-modal_5"
+      src="https://rud.ua/uploads/under_recipe/sufle-600_300_2.jpg"
+    />
+    <input id="rb_close" class="rb" type="radio" name="dessert" />
+    <label for="rb_close"><div class="window-close"></div></label>
+
+    <div class="modal"></div>
+    <h1 style="text-align: center">Кулінарні рецепти</h1>
+    <div class="container">
+      <div class="card">
+        <label for="rb1_open">
+          <img
+            class="dessert"
+            src="https://rud.ua/uploads/under_recipe/01.jpg"
+            alt="The cake"
+          />
+        </label>
+        <a
+          href="https://rud.ua/consumer/recipe/desertu/tort-smetannik-klasichnij/"
+          target="_blank"
+          >ТОРТ ІЗ ДИТИНСТВА: СМЕТАННИК</a
+        >
+        <br />
+        <p>
+          <br />
+          Етап № 1 <br />
+          Для приготування сметанника необхідно спекти два коржі — світлий та
+          темний. Для початку готуємо світлий корж. Беремо 2 яйця, додаємо до
+          них 0,5 склянки цукру та ретельно збиваємо. <br />
+          <br />
+          Етап № 2 <br />
+          У глибоку миску виливаємо 0,5 склянки сметани, висипаємо 1 ч. л. соди
+          та гарно перемішуємо до тих пір, доки сметана не збільшиться в об’ємі
+          вдвічі. Після цього виливаємо сметану до яєчної маси та перемішуємо.
+          Додаємо борошно та злегка збиваємо тісто. <br />
+          <br />
+          Етап № 3 <br />
+          Виливаємо тісто у форму та випікаємо протягом 30–35 хвилин у духовці
+          при 180 градусах. Корж має добре пропектися, перевіряємо його
+          готовність за допомогою дерев’яної шпажки чи зубочистки. <br />
+          <br />
+          Етап № 4 <br />
+          Готуємо темний корж за таким же рецептом. Єдина відмінність — додаємо
+          у борошно 1,5 ст. л. какао-порошку. Випікаємо до готовності.
+          <br />
+          <br />
+          Етап № 5 <br />
+          Залишаємо коржі охолонути, готуємо сметанний крем. До 2 склянок
+          сметани додаємо склянку цукру та ретельно збиваємо. <br />
+          <br />
+          Етап № 6 <br />
+          Коржі розрізаємо уздовж, щоб їх стало вдвічі більше. Починаємо збирати
+          торт: нижній корж змазуємо кремом, викладаємо другий корж і так далі.
+          Щоб сметанник був ніжнішим, змащуємо кремом бокові сторони. Залишаємо
+          торт на 6–8 годин або на ніч у холодильнику, щоб крем застиг, а коржі
+          гарно просочилися.
+        </p>
+      </div>
+      <div class="card">
+        <label for="rb2_open">
+          <img
+            class="dessert"
+            src="https://rud.ua/uploads/under_recipe/shokoladni-oladky-600x300_5f2d1fcf91be7.jpg"
+            alt="The cake"
+          />
+        </label>
+        <a
+          href="https://rud.ua/consumer/recipe/desertu/shokoladni-oladky-z-morozyvom/"
+          target="_blank"
+          >ШОКОЛАДНІ ОЛАДКИ З МОРОЗИВОМ</a
+        >
+        <br />
+        <p>
+          <br />
+          Етап № 1 <br />
+          У глибокій посудині збиваємо яйця та цукор. <br />
+          <br />
+          Етап № 2 <br />
+          До яєчної суміші додаємо кефір та лимонний сік, насипаємо борошно,
+          какао-порошок та чайну ложку соди. Перемішуємо інгредієнти до
+          однорідності. <br />
+          <br />
+          Етап № 3 <br />
+          Мокрою ложкою викладаємо «острівці» тіста на розігріту з олією
+          сковороду й обсмажуємо з двох боків до золотистої скоринки. <br />
+          <br />
+          Етап № 4 <br />
+          Складаємо оладки гіркою на тарілку. Прикрашаємо двома кульками
+          морозива й за бажанням додаємо улюблений топінг, горішки, шоколадні
+          дропси, ягоди абощо.
+        </p>
+      </div>
+      <div class="card">
+        <label for="rb3_open">
+          <img
+            class="dessert"
+            src="https://rud.ua/uploads/under_recipe/600%D1%85300-bananovyy-pudynh_60423ee9232dd.jpg"
+            alt="The cake"
+          />
+        </label>
+        <a
+          href="https://rud.ua/consumer/recipe/desertu/bananovyi-pudynh-iz-morozyvom/"
+          target="_blank"
+          >БАНАНОВИЙ ПУДИНГ ІЗ МОРОЗИВОМ</a
+        >
+        <br />
+        <p>
+          <br />
+          Етап № 1 <br />
+          У невелику каструлю наливаємо молоко та насипаємо просіяне через сито
+          борошно. <br />
+          <br />
+          Етап № 2 <br />
+          За допомогою міксера збиваємо муку та молоко до повного розчинення
+          грудочок. <br />
+          <br />
+          Етап № 3 <br />
+          Відділяємо жовтки від білків. Поміщаємо жовтки в окрему миску, додаємо
+          звичайний та ванільний цукор. Перемішуємо. <br />
+          <br />
+          Етап № 4 <br />
+          Перекладаємо цукрово-яєчну масу до суміші борошна та молока. Збиваємо
+          до однорідної консистенції.
+          <br />
+          <br />
+          Етап № 5 <br />
+          Ставимо каструлю на слабкий вогонь та нагріваємо суміш 2–3 хвилини,
+          постійно помішуючи. Коли маса загусне, знімаємо каструлю з вогню. До
+          суміші додаємо вершкове масло та перемішуємо. Чекаємо, поки суміш
+          охолоне. <br />
+          <br />
+          Етап № 6 <br />
+          Один банан ріжемо на шматочки та перекладаємо в чашу блендера.
+          Викладаємо частину пудингу з каструлі та подрібнюємо інгредієнти
+          протягом кількох хвилин — до кремової консистенції. Банан, який
+          залишився, нарізаємо кружальцями, печиво ламаємо невеличкими
+          шматочками. На дно креманок викладаємо банани та печиво, зверху — шар
+          пудингу та кульку морозива. Повторюємо послідовність до повного
+          наповнення склянок. Залишаємо пудинг у холодильнику на кілька годин.
+        </p>
+      </div>
+      <div class="card">
+        <label for="rb4_open">
+          <img
+            class="dessert"
+            src="https://rud.ua/uploads/under_recipe/shokoladnyi-fondan-600x300_5f2d431d9f2d3.jpg"
+            alt="The cake"
+          />
+        </label>
+        <a
+          href="https://rud.ua/consumer/recipe/desertu/shokoladnyi-fondan-iz-morozyvom/"
+          target="_blank"
+          >ШОКОЛАДНИЙ ФОНДАН ІЗ МОРОЗИВОМ</a
+        >
+        <br />
+        <p>
+          <br />
+          Етап № 1 <br />
+          Шоколадну плитку подрібнюємо на шматочки та разом із вершковим маслом
+          поміщаємо в глибоку посудину. Ставимо на водяну баню та розтоплюємо.
+          <br />
+          <br />
+          Етап № 2 <br />
+          У чаші блендера збиваємо яйця та цукор, переливаємо суміш у розтоплену
+          шоколадну масу та ретельно перемішуємо. <br />
+          <br />
+          Етап № 3 <br />
+          Насипаємо борошно та знову збиваємо. Тісто повинно бути однорідним,
+          в’язким та без грудочок. <br />
+          <br />
+          Етап № 4 <br />
+          Формочки для випікання змащуємо вершковим маслом, посипаємо какао.
+          Зайвий порошок струшуємо.
+          <br />
+          <br />
+          Етап № 5 <br />
+          Наповнюємо формочки тістом, але не до верху, а лише на ⅔ об’єму — при
+          випіканні фондан трохи підніметься. <br />
+          <br />
+          Етап № 6 <br />
+          Розігріваємо духовку до 190 °C та випікаємо фондан протягом 5–7
+          хвилин. Верхівка повинна піднятися, а серединка — лишитися рідкою.
+        </p>
+      </div>
+      <div class="card">
+        <label for="rb5_open">
+          <img
+            class="dessert"
+            src="https://rud.ua/uploads/under_recipe/sufle-600_300_2.jpg"
+            alt="The cake"
+          />
+        </label>
+        <a
+          href="https://rud.ua/consumer/recipe/desertu/yagidno-syrne-sufle/"
+          target="_blank"
+          >ЯГІДНО-СИРНЕ СУФЛЕ</a
+        >
+        <br />
+        <p>
+          <br />
+          Етап № 1 <br />
+          Миємо та насухо витираємо лимон, натираємо цедру. Відділяємо білки від
+          жовтків та збиваємо з дрібкою солі до щільної густої консистенції.
+          Ставимо збиті білки в холодильник.
+          <br />
+          <br />
+          Етап № 2 <br />
+          В окремій посудині змішуємо кисломолочний сир, рикоту та жовтки.
+          Збиваємо міксером до однорідності. <br />
+          <br />
+          Етап № 3 <br />
+          До сиркової маси додаємо цукор, ванілін та цедру лимона. Насипаємо
+          крохмаль та збиваємо суміш. З’єднуємо сирну масу з білками й акуратно
+          перемішуємо. <br />
+          <br />
+          Етап № 4 <br />
+          Формочки для випікання змащуємо вершковим маслом. На дно кожної
+          формочки викладаємо заморожені ягоди. Зверху ягоди вкриваємо солодкою
+          сирною масою, вирівнюємо верхівки лопаткою.
+          <br />
+          <br />
+          Етап № 5 <br />
+          Ставимо в розігріту до 170 °C духовку та випікаємо протягом 15–20
+          хвилин — до утворення легкої золотистої верхівки. <br />
+          <br />
+          Етап № 6 <br />
+          Посипаємо десерт свіжими ягодами й за бажанням доповнюємо іншими
+          улюбленими додатками.
+        </p>
+      </div>
+      <!--
+      <div class="card">
+        <img
+          class="dessert"
+          src="https://rud.ua/uploads/under_recipe/2_(600x300).jpg"
+          alt="The cake"
+        />
+      </div>
+      <div class="card">
+        <img
+          class="dessert"
+          src="https://rud.ua/uploads/under_recipe/recipe-panakota-600%D1%85300.jpg"
+          alt="The cake"
+        />
+      </div>
+      <div class="card">
+        <img
+          class="dessert"
+          src="https://rud.ua/uploads/under_recipe/smetanne-gele-2.jpg"
+          alt="The cake"
+        />
+      </div> -->
+    </div>
+  </body>
+</html>
